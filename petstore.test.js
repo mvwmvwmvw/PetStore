@@ -22,7 +22,6 @@ describe('Pet API', () => {
   });
 
 
-
   describe('Find pets by status', () => {
     test('Find pets by available status', async () => {
       const status = 'available';
@@ -49,7 +48,62 @@ describe('Pet API', () => {
     });
   });
 
-
-
+ 
 
 });
+describe('User API', () => {
+    describe('Get user by username', () => {
+        test('Find user by username', async () => {
+            const username = 'user1';
+            const response = await axios.get(`${URL}/user/${username}`);
+            expect(response.status).toBe(200);
+            expect(response.data).toHaveProperty('username', username);
+          });
+          
+  
+      test('Invalid username supplied', async () => {
+        const invalidUsername = "InvalidUsername";
+        await expect(axios.get(`${URL}/user/${invalidUsername}`)).rejects.toHaveProperty('response.status', 404);
+      });
+      
+  
+      test('User not found', async () => {
+        const nonExistentUsername = "NonExistentUser";
+        await expect(axios.get(`${URL}/user/${nonExistentUsername}`)).rejects.toHaveProperty('response.status', 404);
+      });
+    });
+
+
+    describe('Create list of users with given input array', () => {
+        test('Create list of users', async () => {
+          const userList = [
+            {
+              "id": 4354356355,
+              "username": "user1",
+              "firstName": "Mia",
+              "lastName": "Mia2",
+              "email": "fjhdjfhd@gmail.com",
+              "password": "password123",
+              "phone": "34564365634",
+              "userStatus": 1
+            },
+            {
+              "id": 354545363,
+              "username": "user2",
+              "firstName": "Mira",
+              "lastName": "Mira2",
+              "email": "fhuijgdhjghd@gmail.com",
+              "password": "password111",
+              "phone": "457574756",
+              "userStatus": 2
+            }
+          ];
+      
+          const response = await axios.post(`${URL}/user/createWithList`, userList);
+          
+          expect(response.status).toBe(200);
+        });
+      });
+      
+  });
+  
