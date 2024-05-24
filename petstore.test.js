@@ -1,7 +1,7 @@
 const axios = require('axios');
 const URL = 'https://petstore.swagger.io/v2';
 
-describe('Get  pet by id', () => {
+describe('Get pet by id', () => {
   test('Find pet by ID', async () => {
     const petId = 1; 
     const response = await axios.get(`${URL}/pet/${petId}`);
