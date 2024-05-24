@@ -48,7 +48,31 @@ describe('Pet API', () => {
     });
   });
 
- 
+  describe('Add a new pet', () => {
+    test('Add a new pet to the store', async () => {
+        const newPet = {
+            "id": 123,
+            "category": {
+                "id": 0,
+                "name": "string"
+            },
+            "name": "Dog1",
+            "photoUrls": [
+                "string"
+            ],
+            "tags": [
+                {
+                    "id": 0,
+                    "name": "string"
+                }
+            ],
+            "status": "available"
+        };
+
+        const response = await axios.post(`${URL}/pet`, newPet);
+        expect(response.status).toBe(200);
+    });
+});
 
 });
 describe('User API', () => {
@@ -61,7 +85,7 @@ describe('User API', () => {
           });
           
   
-      test('Invalid username supplied', async () => {
+      test('Invalid username', async () => {
         const invalidUsername = "InvalidUsername";
         await expect(axios.get(`${URL}/user/${invalidUsername}`)).rejects.toHaveProperty('response.status', 404);
       });
@@ -74,12 +98,12 @@ describe('User API', () => {
     });
 
 
-    describe('Create list of users with given input array', () => {
+    describe('Create list of users', () => {
         test('Create list of users', async () => {
           const userList = [
             {
               "id": 4354356355,
-              "username": "user1",
+              "username": "userMia",
               "firstName": "Mia",
               "lastName": "Mia2",
               "email": "fjhdjfhd@gmail.com",
@@ -89,7 +113,7 @@ describe('User API', () => {
             },
             {
               "id": 354545363,
-              "username": "user2",
+              "username": "userMira",
               "firstName": "Mira",
               "lastName": "Mira2",
               "email": "fhuijgdhjghd@gmail.com",
@@ -104,6 +128,9 @@ describe('User API', () => {
           expect(response.status).toBe(200);
         });
       });
+
+
+      
       
   });
   
