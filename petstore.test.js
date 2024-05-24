@@ -1,7 +1,7 @@
 const axios = require('axios');
 const URL = 'https://petstore.swagger.io/v2';
 
-describe('Pet API', () => {
+describe('Pet API tests', () => {
   describe('Get pet by id', () => {
     test('Find pet by ID', async () => {
       const petId = 1;
@@ -10,7 +10,7 @@ describe('Pet API', () => {
       expect(response.data).toHaveProperty('id', petId);
     });
 
-    test('Invalid ID supplied', async () => {
+    test('Invalid ID', async () => {
       const invalidPetId = "InvalidID";
       await expect(axios.get(`${URL}/pet/${invalidPetId}`)).rejects.toHaveProperty('response.status', 404);
     });
@@ -73,9 +73,54 @@ describe('Pet API', () => {
         expect(response.status).toBe(200);
     });
 });
+describe('Delete a pet', () => {
+    test('Delete a pet from the store', async () => {
+        const petId = 123; 
+
+        const response = await axios.delete(`${URL}/pet/${petId}`);
+        expect(response.status).toBe(200); 
+    });
+
+    test('Cannot delete a pet from the store because wrong id, id does not exist', async () => {
+        const petId = 439587438578934798578934;
+
+        try {
+            await axios.delete(`${URL}/pet/${petId}`);
+        } catch (error) {
+            expect(error.response.status).toBe(404); 
+        }
+    });
+});
+describe('Update an existing pet', () => {
+    test('Update an existing pet in the store', async () => {
+         const updatedPet = {
+              "id": 123, 
+              "category": {
+                 "id": 0,
+                  "name": "string"
+              },
+             "name": "updatedDoggie",
+              "photoUrls": [
+                  "string"
+              ],
+               "tags": [
+                {
+                    "id": 0,
+                     "name": "string"
+                  }
+                ],
+             "status": "available"
+            };
+
+            const response = await axios.put(`${URL}/pet`, updatedPet);
+            expect(response.status).toBe(200); 
+        });
+    });
 
 });
-describe('User API', () => {
+
+
+describe('User API tests', () => {
     describe('Get user by username', () => {
         test('Find user by username', async () => {
             const username = 'user1';
